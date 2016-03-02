@@ -8,7 +8,6 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     MediaPlayer music;
-    private int length;
     private static int on = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,22 +31,32 @@ public class MainActivity extends AppCompatActivity {
         startMusic();
         super.onResume();
     }
+
+    @Override
+    public void onDestroy(){
+        music.release();
+        super.onDestroy();
+    }
+
     private void pauseMusic(){
         if(music.isPlaying())
-            music.stop();
-        length = music.getCurrentPosition();
+            music.pause();
     }
     private void startMusic(){
         if(music.isPlaying()==false) {
-            music.seekTo(length);
             music.start();
         }
     }
     public void toggleMusic(View v){
-        if(on%2==0)
+        Button button = (Button) findViewById(R.id.button);
+        if(on%2==0) {
             pauseMusic();
-        else
+            button.setText("RESUME");
+        }
+        else {
             startMusic();
+            button.setText("PAUSE");
+        }
         on++;
     }
 }
