@@ -17,4 +17,8 @@ public class Player {
     public double getTime(){
         return time;
     }
+    @Override
+    public String toString(){
+        return name + "\nTime: "+time;
+    }
 }
