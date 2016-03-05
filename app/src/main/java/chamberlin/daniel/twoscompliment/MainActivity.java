@@ -1,14 +1,27 @@
 package chamberlin.daniel.twoscompliment;
 
+import android.widget.Button;
 import android.media.MediaPlayer;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.GenericTypeIndicator;
+import com.firebase.client.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    static List<Player> sclist = new ArrayList<>();
+    static int on = 0;
     MediaPlayer music;
-    private static int on = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +31,34 @@ public class MainActivity extends AppCompatActivity {
         music = MediaPlayer.create(this,R.raw.broke_for_free_night_owl);
         music.setLooping(true);
         music.start();
+        Firebase.setAndroidContext(this);
+        Firebase firebase = new Firebase("https://shining-inferno-9683.firebaseio.com/");
+        firebase.child("High scores").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                sclist.add(dataSnapshot.getValue(Player.class));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -34,21 +75,25 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy(){
-        music.release();
+        if(music != null) {
+            music.stop();
+            music.release();
+            music = null;
+        }
         super.onDestroy();
     }
 
     private void pauseMusic(){
-        if(music.isPlaying())
+        if(music!=null && music.isPlaying())
             music.pause();
     }
     private void startMusic(){
-        if(music.isPlaying()==false) {
+        if(music!=null && !music.isPlaying()) {
             music.start();
         }
     }
     public void toggleMusic(View v){
-        Button button = (Button) findViewById(R.id.button);
+        Button button = (Button) findViewById(R.id.mutebutton);
         if(on%2==0) {
             pauseMusic();
             button.setText("RESUME");
@@ -58,5 +103,19 @@ public class MainActivity extends AppCompatActivity {
             button.setText("PAUSE");
         }
         on++;
+    }
+
+    public void highscore(View v){
+        Intent intent = new Intent(this, Highscore.class);
+        music.stop();
+        music.reset();
+        startActivity(intent);
+    }
+
+    public void startGame(View v){
+
+        //switch to different activity
+        Intent intent = new Intent(this, boardActivity.class);
+        startActivity(intent);
     }
 }
