@@ -1,29 +1,111 @@
 package chamberlin.daniel.twoscompliment;
 
+import android.media.Image;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.ImageButton;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.Random;
 import chamberlin.daniel.twoscompliment.tile;
 
 /**
  * Created by Daniel on 3/1/2016.
  */
-public class boardActivity {
+public class boardActivity extends AppCompatActivity {
+
+    private static final String TAG = boardActivity.class.getSimpleName();
 
     //Global variables
-    public static int boardSize; //Can be 4, 6, 8, 10
+    public static int boardSize = 4; //Can be 4, 6, 8, 10
+
+    private tile[][] gameBoard;
+    private ImageButton[][] textBoard = new ImageButton[boardSize][boardSize];
+
 
     //Main
-    public static void main(String[] args){
-        tile[][] gameBoard = new tile[boardSize][boardSize];
-        gameBoard = loadInitialGameState(boardSize, gameBoard);
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_board);
+
+        tile[][] board = new tile[boardSize][boardSize];
+        gameBoard = loadInitialGameState(boardSize, board);
+
+        for (int x = 0; x < boardSize; x++){
+            for (int y = 0; y < boardSize; y++){
+                Log.d(TAG, "gameBoard["+x+"]["+y+"].blockType = "+ gameBoard[x][y].blockType);
+            }
+        }
+
+        //ImageButton[][] textBoard = new ImageButton[boardSize][boardSize];
+
+        textBoard[0][0] = (ImageButton) findViewById(R.id.t00);
+        textBoard[1][0] = (ImageButton) findViewById(R.id.t10);
+        textBoard[2][0] = (ImageButton) findViewById(R.id.t20);
+        textBoard[3][0] = (ImageButton) findViewById(R.id.t30);
+        textBoard[0][1] = (ImageButton) findViewById(R.id.t01);
+        textBoard[1][1] = (ImageButton) findViewById(R.id.t11);
+        textBoard[2][1] = (ImageButton) findViewById(R.id.t21);
+        textBoard[3][1] = (ImageButton) findViewById(R.id.t31);
+        textBoard[0][2] = (ImageButton) findViewById(R.id.t02);
+        textBoard[1][2] = (ImageButton) findViewById(R.id.t12);
+        textBoard[2][2] = (ImageButton) findViewById(R.id.t22);
+        textBoard[3][2] = (ImageButton) findViewById(R.id.t32);
+        textBoard[0][3] = (ImageButton) findViewById(R.id.t03);
+        textBoard[1][3] = (ImageButton) findViewById(R.id.t13);
+        textBoard[2][3] = (ImageButton) findViewById(R.id.t23);
+        textBoard[3][3] = (ImageButton) findViewById(R.id.t33);
+
+        /*for(int i = 0; i < gameBoard.length; i++){
+            for(int j = 0; j <gameBoard[i].length; j++){
+                setButton(textBoard[i][j], i, j);
+            }
+        }*/
+        setAllButtons();
+    }
+
+    private void setButton(ImageButton b, int x, int y){
+        tile t = gameBoard[x][y];
+        if(t.blockType == 2){
+            b.setBackgroundResource(R.mipmap.redtile);
+        }
+        if(t.blockType == 3){
+            b.setBackgroundResource(R.mipmap.bluetile);
+        }
+        if(t.blockType == 1){
+           b.setBackgroundResource(R.mipmap.emptytile);
+        }
+    }
+
+    private void setAllButtons (){
+        for(int i = 0; i < gameBoard.length; i++){
+            for(int j = 0; j <gameBoard[i].length; j++){
+                setButton(textBoard[i][j], i, j);
+            }
+        }
+    }
+
+
+    protected void onResume(){
+
+        super.onResume();
     }
 
     //Loads the initial state of the game board
     //Currently this function is basically just a shell to call another function
     //Decided to keep it here in case I ever want to include alternate game modes
     //which don't generate the board in the same way that generateBoardState() does.
-    private static tile[][] loadInitialGameState(int boardSize, tile[][] gameBoard){
+    private tile[][] loadInitialGameState(int boardSize, tile[][] gameBoard){
         return generateBoardState(boardSize, gameBoard);
+        //return generateTestBoard(boardSize, gameBoard);
     }
 
     //Randomly generates a starting board state following the game rules
@@ -44,7 +126,7 @@ public class boardActivity {
         //Fill board with empty tiles
         for(int i=0; i < boardSize; i++){
             for(int j = 0; j < boardSize; j++){
-                gameBoard[i][j] = new tile(0);				//tiles created as empty
+                gameBoard[i][j] = new tile(0, j, i);				//tiles created as empty
             }
         }
 
@@ -197,6 +279,43 @@ public class boardActivity {
         }
     return gameBoard;
     }
+
+    private tile[] convertToOneD(tile[][] gameBoard){
+        int vert = gameBoard.length;
+        int total = 0;
+        //determine length of new 1d array
+        for(int i = 0; i < vert; i++){
+            for(int j = 0; j < gameBoard[i].length; j++){
+                total++;
+                Log.d(TAG, "total = "+ total);
+            }
+        }
+        tile[] newArray = new tile[total];
+        int k = 0;
+        for(int x = 0; x < vert; x++){
+            for(int y = 0; y < gameBoard[x].length; y++){
+                newArray[k] = gameBoard[x][y];
+                k++;
+            }
+        }
+        return newArray;
+    }
+
+    public void clickButton(View v){
+        ImageButton btn = (ImageButton) v;
+        tile t;
+        for(int x = 0; x < boardSize; x++){
+            for(int y = 0; y < boardSize; y++){
+                if(btn == (ImageButton) textBoard[x][y]){
+                    t = gameBoard[x][y];
+                    t.cycleTileState(t.blockType);
+                    setButton(btn, x, y);
+                }
+            }
+        }
+
+    }
+
 
     //-------------------------------------------------------------------------------------------------------
     //These functions are used for the final check on whether or not the user-completed board is valid.

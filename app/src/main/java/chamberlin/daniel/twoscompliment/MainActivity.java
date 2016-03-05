@@ -56,4 +56,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Highscore.class);
         startActivity(intent);
     }
+
+    public void startGame(View v){
+
+        //switch to different activity
+        Intent intent = new Intent(this, boardActivity.class);
+        startActivity(intent);
+    }
 }

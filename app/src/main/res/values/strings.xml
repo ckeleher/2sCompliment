@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TwosCompliment</string>
+    <string name="highscore">Highscore</string>
 </resources>
