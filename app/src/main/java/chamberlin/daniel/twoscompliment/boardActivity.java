@@ -1,10 +1,12 @@
 package chamberlin.daniel.twoscompliment;
 
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ImageButton;
@@ -27,6 +29,7 @@ public class boardActivity extends AppCompatActivity {
 
     private tile[][] gameBoard;
     private ImageButton[][] textBoard = new ImageButton[boardSize][boardSize];
+    MediaPlayer music;
 
 
     //Main
@@ -70,6 +73,17 @@ public class boardActivity extends AppCompatActivity {
             }
         }*/
         setAllButtons();
+        music = MediaPlayer.create(this, R.raw.broke_for_free_night_owl);
+        music.setLooping(true);
+        Button button = (Button) findViewById(R.id.mutebutton);
+        if(MainActivity.on%2==0) {
+            startMusic();
+            button.setText("PAUSE");
+        }
+        else {
+            pauseMusic();
+            button.setText("RESUME");
+        }
     }
 
     private void setButton(ImageButton b, int x, int y){
@@ -93,10 +107,45 @@ public class boardActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onPause(){
+        pauseMusic();
+        super.onPause();
+    }
 
-    protected void onResume(){
-
+    @Override
+    public void onResume(){
+        startMusic();
         super.onResume();
+    }
+
+    @Override
+    public void onDestroy(){
+        music.stop();
+        music.release();
+        super.onDestroy();
+    }
+
+    private void pauseMusic(){
+        if(music.isPlaying())
+            music.pause();
+    }
+    private void startMusic(){
+        if(!music.isPlaying()) {
+            music.start();
+        }
+    }
+    public void toggleMusic(View v){
+        Button button = (Button) findViewById(R.id.mutebutton);
+        if(MainActivity.on%2==0) {
+            pauseMusic();
+            button.setText("RESUME");
+        }
+        else {
+            startMusic();
+            button.setText("PAUSE");
+        }
+        MainActivity.on++;
     }
 
     //Loads the initial state of the game board
