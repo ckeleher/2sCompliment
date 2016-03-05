@@ -116,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
         //switch to different activity
         Intent intent = new Intent(this, boardActivity.class);
+        music.stop();
+        music.reset();
         startActivity(intent);
     }
 }

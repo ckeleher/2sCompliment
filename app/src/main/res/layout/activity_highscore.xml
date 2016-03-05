@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/mutebutton"
+        android:onClick="toggleMusic"
         android:layout_above="@+id/listView"
         android:layout_toRightOf="@+id/textView"
         android:layout_toEndOf="@+id/textView" />

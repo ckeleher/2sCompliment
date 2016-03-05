@@ -23,12 +23,12 @@ public class Highscore extends AppCompatActivity {
         music.setLooping(true);
         Button button = (Button) findViewById(R.id.mutebutton);
         if(MainActivity.on%2==0) {
-            pauseMusic();
-            button.setText("RESUME");
-        }
-        else {
             startMusic();
             button.setText("PAUSE");
+        }
+        else {
+            pauseMusic();
+            button.setText("RESUME");
         }
     }
     @Override
