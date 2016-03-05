@@ -13,7 +13,6 @@ public class Highscore extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscore);
-        //MyAdapter ad = new MyAdapter(this,R.layout.rowtext,MainActivity.sclist);
         ArrayAdapter<Player> ad = new ArrayAdapter<Player>(this,android.R.layout.simple_list_item_1,MainActivity.sclist);
         ListView lv = (ListView)findViewById(R.id.listView);
         lv.setAdapter(ad);

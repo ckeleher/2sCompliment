@@ -7,6 +7,8 @@ public class Player {
     private String name;
     private double time;
 
+    public Player(){}
+
     public Player(String name, double time){
         this.name = name;
         this.time = time;

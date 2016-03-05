@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -13,27 +14,35 @@ import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    static ArrayList<Player> sclist = new ArrayList<Player>();
+    static List<Player> sclist = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Firebase.setAndroidContext(this);
         Firebase firebase = new Firebase("https://shining-inferno-9683.firebaseio.com/");
-        ArrayList<Player> hs = new ArrayList<>();
-        Player test = new Player("Max", 30);
-        Player test1 = new Player("Bobby", 20);
-        hs.add(test);
-        hs.add(test1);
-        firebase.child("High scores").setValue(hs);
-        firebase.child("High scores").addValueEventListener(new ValueEventListener() {
+        firebase.child("High scores").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-               // GenericTypeIndicator<ArrayList<Player>> t = new GenericTypeIndicator<ArrayList<Player>>() {};
-                sclist = (ArrayList<Player>)dataSnapshot.getValue();
-                Log.i("data","data:" + dataSnapshot.getValue() + "child:" + dataSnapshot.child("High scores").getValue());
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                       sclist.add(dataSnapshot.getValue(Player.class));
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
