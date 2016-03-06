@@ -25,7 +25,7 @@ public class boardActivity extends AppCompatActivity {
     private static final String TAG = boardActivity.class.getSimpleName();
 
     //Global variables
-    public static int boardSize = 4; //Can be 4, 6, 8, 10
+    public static int boardSize = 6; //Can be 4, 6, 8, 10
 
     private tile[][] gameBoard;
     private ImageButton[][] textBoard = new ImageButton[boardSize][boardSize];
@@ -37,7 +37,12 @@ public class boardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_board);
+        if(boardSize == 4) {
+            setContentView(R.layout.activity_board);
+        }
+        if(boardSize == 6) {
+            setContentView(R.layout.activity_board_6);
+        }
 
         tile[][] board = new tile[boardSize][boardSize];
         gameBoard = loadInitialGameState(boardSize, board);
@@ -66,6 +71,30 @@ public class boardActivity extends AppCompatActivity {
         textBoard[1][3] = (ImageButton) findViewById(R.id.t13);
         textBoard[2][3] = (ImageButton) findViewById(R.id.t23);
         textBoard[3][3] = (ImageButton) findViewById(R.id.t33);
+
+        //buttons for 6by6 board
+        if(boardSize >= 6){
+            textBoard[0][4] = (ImageButton) findViewById(R.id.t04);
+            textBoard[0][5] = (ImageButton) findViewById(R.id.t05);
+            textBoard[1][4] = (ImageButton) findViewById(R.id.t14);
+            textBoard[1][5] = (ImageButton) findViewById(R.id.t15);
+            textBoard[2][4] = (ImageButton) findViewById(R.id.t24);
+            textBoard[2][5] = (ImageButton) findViewById(R.id.t25);
+            textBoard[3][4] = (ImageButton) findViewById(R.id.t34);
+            textBoard[3][5] = (ImageButton) findViewById(R.id.t35);
+            textBoard[4][0] = (ImageButton) findViewById(R.id.t40);
+            textBoard[4][1] = (ImageButton) findViewById(R.id.t41);
+            textBoard[4][2] = (ImageButton) findViewById(R.id.t42);
+            textBoard[4][3] = (ImageButton) findViewById(R.id.t43);
+            textBoard[4][4] = (ImageButton) findViewById(R.id.t44);
+            textBoard[4][5] = (ImageButton) findViewById(R.id.t45);
+            textBoard[5][0] = (ImageButton) findViewById(R.id.t50);
+            textBoard[5][1] = (ImageButton) findViewById(R.id.t51);
+            textBoard[5][2] = (ImageButton) findViewById(R.id.t52);
+            textBoard[5][3] = (ImageButton) findViewById(R.id.t53);
+            textBoard[5][4] = (ImageButton) findViewById(R.id.t54);
+            textBoard[5][5] = (ImageButton) findViewById(R.id.t55);
+        }
 
         /*for(int i = 0; i < gameBoard.length; i++){
             for(int j = 0; j <gameBoard[i].length; j++){
