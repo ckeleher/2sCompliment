@@ -88,13 +88,13 @@ public class boardActivity extends AppCompatActivity {
 
     private void setButton(ImageButton b, int x, int y){
         tile t = gameBoard[x][y];
-        if(t.blockType == 2){
+        if(t.blockType == 1){
             b.setBackgroundResource(R.mipmap.redtile);
         }
-        if(t.blockType == 3){
+        if(t.blockType == 2){
             b.setBackgroundResource(R.mipmap.bluetile);
         }
-        if(t.blockType == 1){
+        if(t.blockType == 3){
            b.setBackgroundResource(R.mipmap.emptytile);
         }
     }
