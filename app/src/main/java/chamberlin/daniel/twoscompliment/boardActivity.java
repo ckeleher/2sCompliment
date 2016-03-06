@@ -446,7 +446,31 @@ public class boardActivity extends AppCompatActivity {
 
     //Checks for three consecutive tiles in a row or column
     private boolean checkForThrees(tile[][] gameBoard){
-        return true;
+        boolean threes = false;
+
+        //checking rows for threes
+        for(int i=0; i > boardSize; i++){
+            for(int j=0; j > boardSize-2; j++){
+                if(gameBoard[i][j].blockType == 1 && gameBoard[i][j+1].blockType == 1 && gameBoard[i][j+2].blockType == 1){
+                    threes = true;
+                }else if(gameBoard[i][j].blockType == 2 && gameBoard[i][j+1].blockType == 2 && gameBoard[i][j+2].blockType == 2){
+                    threes = true;
+                }
+            }
+        }
+
+        //checking columns for threes
+        //need to double0check this logic
+        for(int i=0; i > boardSize; i++){
+            for(int j=0; j > boardSize-2; j++){
+                if(gameBoard[j][i].blockType == 1 && gameBoard[j][i+1].blockType == 1 && gameBoard[j][i+2].blockType == 1){
+                    threes = true;
+                }else if(gameBoard[j][i].blockType == 2 && gameBoard[j][i+1].blockType == 2 && gameBoard[j][i+2].blockType == 2){
+                    threes = true;
+                }
+            }
+        }
+        return threes;
     }
 
     //Checks that the number of tiles of type 1 and type 2 are the same in a complete row
