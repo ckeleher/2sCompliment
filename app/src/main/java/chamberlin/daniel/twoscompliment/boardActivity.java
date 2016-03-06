@@ -36,6 +36,10 @@ public class boardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null){
+            boardSize = extras.getInt("size");
+        }
 
         if(boardSize == 4) {
             setContentView(R.layout.activity_board);

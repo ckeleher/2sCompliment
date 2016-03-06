@@ -112,10 +112,38 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void startGame(View v){
+    public void startGame4(View v){
 
         //switch to different activity
         Intent intent = new Intent(this, boardActivity.class);
+        intent.putExtra("size",4);
+        music.stop();
+        music.reset();
+        startActivity(intent);
+    }
+    public void startGame6(View v){
+
+        //switch to different activity
+        Intent intent = new Intent(this, boardActivity.class);
+        intent.putExtra("size",6);
+        music.stop();
+        music.reset();
+        startActivity(intent);
+    }
+    public void startGame8(View v){
+
+        //switch to different activity
+        Intent intent = new Intent(this, boardActivity.class);
+        intent.putExtra("size",8);
+        music.stop();
+        music.reset();
+        startActivity(intent);
+    }
+    public void startGame10(View v){
+
+        //switch to different activity
+        Intent intent = new Intent(this, boardActivity.class);
+        intent.putExtra("size",10);
         music.stop();
         music.reset();
         startActivity(intent);
