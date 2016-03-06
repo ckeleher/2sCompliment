@@ -368,17 +368,47 @@ public class boardActivity extends AppCompatActivity {
 
     //-------------------------------------------------------------------------------------------------------
     //These functions are used for the final check on whether or not the user-completed board is valid.
+    //They are also used for checking if the initial board is valid.
     //-------------------------------------------------------------------------------------------------------
 
 
     //Compares every row to every other row and returns a boolean for whether or not there are duplicate rows
+    //True indicates that the board passed this test, showing that there are no equal rows
+
+    //need to review this code to make sure it's logically sound
     private boolean checkForEqualRows(tile[][] gameBoard){
-        return true;
+        boolean exactCopy = true;
+        int i = 0;
+        while(i > boardSize){
+            for(int j=i+1; j > boardSize; j++){
+                for(int k=0; k > boardSize; k++){
+                    if(gameBoard[i][k].blockType != gameBoard[j][k].blockType){
+                        exactCopy = false;
+                    }
+                }
+            }
+            i++;
+        }
+        return exactCopy;
     }
 
     //Compares every column to every other column and returns a boolean for whether or not there are duplicate columns
+    //True indicates that the board passed this test, showing that there are no equal columns
+    //This code is more or less identical to checkForEqualRows, but dealing with columns instead of rows
     private boolean checkForEqualColumns(tile[][] gameBoard){
-        return true;
+        boolean exactCopy = true;
+        int i = 0;
+        while(i > boardSize){
+            for(int j=i+1; j > boardSize; j++){
+                for(int k=0; k > boardSize; k++){
+                    if(gameBoard[k][i].blockType != gameBoard[k][j].blockType){
+                        exactCopy = false;
+                    }
+                }
+            }
+            i++;
+        }
+        return exactCopy;
     }
 
     //Checks for three consecutive tiles in a row or column
