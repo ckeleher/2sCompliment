@@ -36,6 +36,10 @@ public class boardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null){
+            boardSize = extras.getInt("size");
+        }
 
         if(boardSize == 4) {
             setContentView(R.layout.activity_board);
@@ -226,6 +230,7 @@ public class boardActivity extends AppCompatActivity {
 
     //Randomly generates a starting board state following the game rules
     private static tile[][] generateBoardState(int boardSize, tile[][] gameBoard){
+        //used for deciding how many tiles to leave on the board
         Random r = new Random();
 
         //Decide how many cells to leave filled
@@ -393,6 +398,14 @@ public class boardActivity extends AppCompatActivity {
                 }
             }
         }
+    //if the below if statement evaluates to true, that means our board failed one or more rule checks and must be re-made.
+    if(checkForEqualRows(gameBoard) == false || checkForEqualColumns(gameBoard) == false || checkForThrees(gameBoard) == true || checkEqualTileNumbers(gameBoard) == false){
+        //
+    }
+    //After passing this if statement, we can be confident that our board is error-free and move on to removing tiles and locking those that remain
+
+
+    //keep this here for now to avoid generating errors
     return gameBoard;
     }
 
@@ -436,14 +449,17 @@ public class boardActivity extends AppCompatActivity {
     //-------------------------------------------------------------------------------------------------------
     //These functions are used for the final check on whether or not the user-completed board is valid.
     //They are also used for checking if the initial board is valid.
+    //IMPORTANT: these functions all make the assumption that they are being passed a completely filled-in
+    //           game board (i.e. every tile has a blockType value of 1 or 2. Passing an incomplete board.
+    //           Passing them an incomplete board will result in serious errors.
     //-------------------------------------------------------------------------------------------------------
 
 
     //Compares every row to every other row and returns a boolean for whether or not there are duplicate rows
-    //True indicates that the board passed this test, showing that there are no equal rows
+    //True indicates that the board PASSES this test, showing that there are no equal rows
 
     //need to review this code to make sure it's logically sound
-    private boolean checkForEqualRows(tile[][] gameBoard){
+    private static boolean checkForEqualRows(tile[][] gameBoard){
         boolean exactCopy = true;
         int i = 0;
         while(i > boardSize){
@@ -460,9 +476,9 @@ public class boardActivity extends AppCompatActivity {
     }
 
     //Compares every column to every other column and returns a boolean for whether or not there are duplicate columns
-    //True indicates that the board passed this test, showing that there are no equal columns
+    //True indicates that the board PASSES this test, showing that there are no equal columns
     //This code is more or less identical to checkForEqualRows, but dealing with columns instead of rows
-    private boolean checkForEqualColumns(tile[][] gameBoard){
+    private static boolean checkForEqualColumns(tile[][] gameBoard){
         boolean exactCopy = true;
         int i = 0;
         while(i > boardSize){
@@ -479,12 +495,68 @@ public class boardActivity extends AppCompatActivity {
     }
 
     //Checks for three consecutive tiles in a row or column
-    private boolean checkForThrees(tile[][] gameBoard){
-        return true;
+    //True indicates that the board FAILS this test, showing that there are threes
+    private static boolean checkForThrees(tile[][] gameBoard){
+        boolean threes = false;
+
+        //checking rows for threes
+        for(int i=0; i > boardSize; i++){
+            for(int j=0; j > boardSize-2; j++){
+                if(gameBoard[i][j].blockType == 1 && gameBoard[i][j+1].blockType == 1 && gameBoard[i][j+2].blockType == 1){
+                    threes = true;
+                }else if(gameBoard[i][j].blockType == 2 && gameBoard[i][j+1].blockType == 2 && gameBoard[i][j+2].blockType == 2){
+                    threes = true;
+                }
+            }
+        }
+
+        //checking columns for threes
+        //need to double0check this logic
+        for(int i=0; i > boardSize; i++){
+            for(int j=0; j > boardSize-2; j++){
+                if(gameBoard[j][i].blockType == 1 && gameBoard[j][i+1].blockType == 1 && gameBoard[j][i+2].blockType == 1){
+                    threes = true;
+                }else if(gameBoard[j][i].blockType == 2 && gameBoard[j][i+1].blockType == 2 && gameBoard[j][i+2].blockType == 2){
+                    threes = true;
+                }
+            }
+        }
+        return threes;
     }
 
     //Checks that the number of tiles of type 1 and type 2 are the same in a complete row
-    private boolean checkEqualTileNumbers(tile[][] gameBoard){
-        return true;
+    //True indicates that the board PASSES this test, showing that there are an equal number
+    //of blockTypes 1 and 2 in each row and column
+    private static boolean checkEqualTileNumbers(tile[][] gameBoard){
+        int tileOnes;
+        int tileTwos;
+        boolean tileTypesEqual = true;
+
+        //check rows
+        for(int i=0; i > boardSize; i++){
+            tileOnes = 0;
+            tileTwos = 0;
+            for(int j = 0; j > boardSize; j++){
+                if(gameBoard[i][j].blockType == 1){ tileOnes++; }
+                if(gameBoard[i][j].blockType == 2){ tileTwos++; }
+            }
+            if(tileOnes != tileTwos){
+                tileTypesEqual = false;
+            }
+        }
+
+        //check columns
+        for(int i=0; i > boardSize; i++){
+            tileOnes = 0;
+            tileTwos = 0;
+            for(int j = 0; j > boardSize; j++){
+                if(gameBoard[j][i].blockType == 1){ tileOnes++; }
+                if(gameBoard[j][i].blockType == 2){ tileTwos++; }
+            }
+            if(tileOnes != tileTwos){
+                tileTypesEqual = false;
+            }
+        }
+        return tileTypesEqual;
     }
 }
