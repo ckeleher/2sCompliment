@@ -25,7 +25,7 @@ public class boardActivity extends AppCompatActivity {
     private static final String TAG = boardActivity.class.getSimpleName();
 
     //Global variables
-    public static int boardSize = 6; //Can be 4, 6, 8, 10
+    public static int boardSize = 8; //Can be 4, 6, 8, 10
 
     private tile[][] gameBoard;
     private ImageButton[][] textBoard = new ImageButton[boardSize][boardSize];
@@ -42,6 +42,9 @@ public class boardActivity extends AppCompatActivity {
         }
         if(boardSize == 6) {
             setContentView(R.layout.activity_board_6);
+        }
+        if(boardSize == 8){
+            setContentView(R.layout.activity_board_8);
         }
 
         tile[][] board = new tile[boardSize][boardSize];
@@ -96,14 +99,48 @@ public class boardActivity extends AppCompatActivity {
             textBoard[5][5] = (ImageButton) findViewById(R.id.t55);
         }
 
+        if(boardSize >= 8){
+            textBoard[0][6] = (ImageButton) findViewById(R.id.t06);
+            textBoard[0][7] = (ImageButton) findViewById(R.id.t07);
+            textBoard[1][6] = (ImageButton) findViewById(R.id.t16);
+            textBoard[1][7] = (ImageButton) findViewById(R.id.t17);
+            textBoard[2][6] = (ImageButton) findViewById(R.id.t26);
+            textBoard[2][7] = (ImageButton) findViewById(R.id.t27);
+            textBoard[3][6] = (ImageButton) findViewById(R.id.t36);
+            textBoard[3][7] = (ImageButton) findViewById(R.id.t37);
+            textBoard[4][6] = (ImageButton) findViewById(R.id.t46);
+            textBoard[4][7] = (ImageButton) findViewById(R.id.t47);
+            textBoard[5][6] = (ImageButton) findViewById(R.id.t56);
+            textBoard[5][7] = (ImageButton) findViewById(R.id.t57);
+            textBoard[6][0] = (ImageButton) findViewById(R.id.t60);
+            textBoard[6][1] = (ImageButton) findViewById(R.id.t61);
+            textBoard[6][2] = (ImageButton) findViewById(R.id.t62);
+            textBoard[6][3] = (ImageButton) findViewById(R.id.t63);
+            textBoard[6][4] = (ImageButton) findViewById(R.id.t64);
+            textBoard[6][5] = (ImageButton) findViewById(R.id.t65);
+            textBoard[6][6] = (ImageButton) findViewById(R.id.t66);
+            textBoard[6][7] = (ImageButton) findViewById(R.id.t67);
+            textBoard[7][0] = (ImageButton) findViewById(R.id.t70);
+            textBoard[7][1] = (ImageButton) findViewById(R.id.t71);
+            textBoard[7][2] = (ImageButton) findViewById(R.id.t72);
+            textBoard[7][3] = (ImageButton) findViewById(R.id.t73);
+            textBoard[7][4] = (ImageButton) findViewById(R.id.t74);
+            textBoard[7][5] = (ImageButton) findViewById(R.id.t75);
+            textBoard[7][6] = (ImageButton) findViewById(R.id.t76);
+            textBoard[7][7] = (ImageButton) findViewById(R.id.t77);
+        }
+
         /*for(int i = 0; i < gameBoard.length; i++){
             for(int j = 0; j <gameBoard[i].length; j++){
                 setButton(textBoard[i][j], i, j);
             }
         }*/
+
         setAllButtons();
         music = MediaPlayer.create(this, R.raw.broke_for_free_night_owl);
         music.setLooping(true);
+
+        /*
         Button button = (Button) findViewById(R.id.mutebutton);
         if(MainActivity.on%2==0) {
             startMusic();
@@ -113,6 +150,7 @@ public class boardActivity extends AppCompatActivity {
             pauseMusic();
             button.setText("RESUME");
         }
+        */
     }
 
     private void setButton(ImageButton b, int x, int y){
