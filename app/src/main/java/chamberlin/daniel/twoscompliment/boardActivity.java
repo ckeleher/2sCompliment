@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import chamberlin.daniel.twoscompliment.tile;
 
@@ -28,18 +29,22 @@ public class boardActivity extends AppCompatActivity {
     public static int boardSize = 8; //Can be 4, 6, 8, 10
 
     private tile[][] gameBoard;
-    private ImageButton[][] textBoard = new ImageButton[boardSize][boardSize];
+    private ImageButton[][] textBoard;
     MediaPlayer music;
 
 
     //Main
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        //fetches boardSize intent and establishes proper arrays
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         if(extras!=null){
             boardSize = extras.getInt("size");
         }
+
+        textBoard = new ImageButton[boardSize][boardSize];
+        Log.d(TAG, "in onCreate with boardSize"+boardSize);
 
         if(boardSize == 4) {
             setContentView(R.layout.activity_board);
@@ -158,6 +163,7 @@ public class boardActivity extends AppCompatActivity {
     }
 
     private void setButton(ImageButton b, int x, int y){
+
         tile t = gameBoard[x][y];
         if(t.blockType == 1){
             b.setBackgroundResource(R.mipmap.redtile);
@@ -168,6 +174,7 @@ public class boardActivity extends AppCompatActivity {
         if(t.blockType == 3){
            b.setBackgroundResource(R.mipmap.emptytile);
         }
+
     }
 
     private void setAllButtons (){
@@ -398,15 +405,14 @@ public class boardActivity extends AppCompatActivity {
                 }
             }
         }
-    //if the below if statement evaluates to true, that means our board failed one or more rule checks and must be re-made.
-    if(checkForEqualRows(gameBoard) == false || checkForEqualColumns(gameBoard) == false || checkForThrees(gameBoard) == true || checkEqualTileNumbers(gameBoard) == false){
-        //
-    }
-    //After passing this if statement, we can be confident that our board is error-free and move on to removing tiles and locking those that remain
-
-
-    //keep this here for now to avoid generating errors
-    return gameBoard;
+        //if the below if statement evaluates to true, that means our board succeeded
+        if(checkForEqualRows(gameBoard) == true && checkForEqualColumns(gameBoard) == true && checkForThrees(gameBoard) == true && checkEqualTileNumbers(gameBoard) == true){
+            return gameBoard;
+        }
+        //else create a new board
+        else {
+            return generateBoardState(boardSize, gameBoard);
+        }
     }
 
     private tile[] convertToOneD(tile[][] gameBoard){
@@ -457,67 +463,98 @@ public class boardActivity extends AppCompatActivity {
 
     //Compares every row to every other row and returns a boolean for whether or not there are duplicate rows
     //True indicates that the board PASSES this test, showing that there are no equal rows
-
-    //need to review this code to make sure it's logically sound
+    //TRUE = PASSED; Board is good to go
     private static boolean checkForEqualRows(tile[][] gameBoard){
         boolean exactCopy = true;
-        int i = 0;
-        while(i > boardSize){
-            for(int j=i+1; j > boardSize; j++){
-                for(int k=0; k > boardSize; k++){
-                    if(gameBoard[i][k].blockType != gameBoard[j][k].blockType){
+        String[] rows;
+        int[] blocks;
+        rows = new String[boardSize];
+        blocks = new int[boardSize];
+        //create boardSize number of strings to represent each row
+        for(int i = 0; i < boardSize; i++){
+            for(int j = 0; j < boardSize; j++){
+                blocks[j] = gameBoard[i][j].blockType;
+            }
+            rows[i] = Arrays.toString(blocks);
+            Log.d(TAG, "rows of concat arrays"+rows[i]);
+        }
+        //compare those strings to find exact copy row
+        for(int x = 0; x < boardSize; x++){
+            for(int y = 0; y < boardSize; y++){
+                //make sure rows are not compared to themselves
+                if(x != y) {
+                    if (rows[x].equals(rows[y])) {
                         exactCopy = false;
+                        Log.d(TAG, "" + rows[x] + " is equal to " + rows[y]);
+                        break;
                     }
                 }
             }
-            i++;
         }
         return exactCopy;
     }
 
     //Compares every column to every other column and returns a boolean for whether or not there are duplicate columns
     //True indicates that the board PASSES this test, showing that there are no equal columns
-    //This code is more or less identical to checkForEqualRows, but dealing with columns instead of rows
+    //TRUE = PASSED; Board is good to go
     private static boolean checkForEqualColumns(tile[][] gameBoard){
         boolean exactCopy = true;
-        int i = 0;
-        while(i > boardSize){
-            for(int j=i+1; j > boardSize; j++){
-                for(int k=0; k > boardSize; k++){
-                    if(gameBoard[k][i].blockType != gameBoard[k][j].blockType){
+        String[] columns;
+        int[] blocks;
+        columns = new String[boardSize];
+        blocks = new int[boardSize];
+        //create boardSize number of strings to represent each row
+        for(int i = 0; i < boardSize; i++){
+            for(int j = 0; j < boardSize; j++){
+                blocks[j] = gameBoard[j][i].blockType;
+            }
+            columns[i] = Arrays.toString(blocks);
+            Log.d(TAG, "columns of concat arrays"+columns[i]);
+        }
+        //compare those strings to find exact copy row
+        for(int x = 0; x < boardSize; x++){
+            for(int y = 0; y < boardSize; y++){
+                //make sure rows are not compared to themselves
+                if(x != y) {
+                    if (columns[x].equals(columns[y])) {
                         exactCopy = false;
+                        Log.d(TAG, "" + columns[x] + " is equal to " + columns[y]);
+                        break;
                     }
                 }
             }
-            i++;
         }
         return exactCopy;
     }
 
     //Checks for three consecutive tiles in a row or column
-    //True indicates that the board FAILS this test, showing that there are threes
+    //True indicates that the board PASSES this test, showing that there are no threes
+    //TRUE = PASSED; Board is good to go
     private static boolean checkForThrees(tile[][] gameBoard){
-        boolean threes = false;
+        boolean threes = true;
 
         //checking rows for threes
-        for(int i=0; i > boardSize; i++){
-            for(int j=0; j > boardSize-2; j++){
+        for(int i=0; i < boardSize; i++){
+            for(int j=0; j < boardSize-2; j++){
                 if(gameBoard[i][j].blockType == 1 && gameBoard[i][j+1].blockType == 1 && gameBoard[i][j+2].blockType == 1){
-                    threes = true;
+                    threes = false;
+                    Log.d(TAG, "group of three"+gameBoard[i][j].blockType+gameBoard[i][j+1].blockType+gameBoard[i][j+2].blockType);
                 }else if(gameBoard[i][j].blockType == 2 && gameBoard[i][j+1].blockType == 2 && gameBoard[i][j+2].blockType == 2){
-                    threes = true;
+                    threes = false;
+                    Log.d(TAG, "group of three"+gameBoard[i][j].blockType+gameBoard[i][j+1].blockType+gameBoard[i][j+2].blockType);
                 }
             }
         }
 
         //checking columns for threes
-        //need to double0check this logic
-        for(int i=0; i > boardSize; i++){
-            for(int j=0; j > boardSize-2; j++){
+        for(int i=0; i < boardSize-2; i++){
+            for(int j=0; j < boardSize; j++){
                 if(gameBoard[j][i].blockType == 1 && gameBoard[j][i+1].blockType == 1 && gameBoard[j][i+2].blockType == 1){
-                    threes = true;
+                    Log.d(TAG, "group of three"+gameBoard[j][i].blockType+gameBoard[j][i+1].blockType+gameBoard[j][i+2].blockType);
+                    threes = false;
                 }else if(gameBoard[j][i].blockType == 2 && gameBoard[j][i+1].blockType == 2 && gameBoard[j][i+2].blockType == 2){
-                    threes = true;
+                    Log.d(TAG, "group of three"+gameBoard[j][i].blockType+gameBoard[j][i+1].blockType+gameBoard[j][i+2].blockType);
+                    threes = false;
                 }
             }
         }
@@ -527,16 +564,17 @@ public class boardActivity extends AppCompatActivity {
     //Checks that the number of tiles of type 1 and type 2 are the same in a complete row
     //True indicates that the board PASSES this test, showing that there are an equal number
     //of blockTypes 1 and 2 in each row and column
+    //TRUE = PASSED; Board is good to go
     private static boolean checkEqualTileNumbers(tile[][] gameBoard){
         int tileOnes;
         int tileTwos;
         boolean tileTypesEqual = true;
 
         //check rows
-        for(int i=0; i > boardSize; i++){
+        for(int i=0; i < boardSize; i++){
             tileOnes = 0;
             tileTwos = 0;
-            for(int j = 0; j > boardSize; j++){
+            for(int j = 0; j < boardSize; j++){
                 if(gameBoard[i][j].blockType == 1){ tileOnes++; }
                 if(gameBoard[i][j].blockType == 2){ tileTwos++; }
             }
@@ -546,10 +584,10 @@ public class boardActivity extends AppCompatActivity {
         }
 
         //check columns
-        for(int i=0; i > boardSize; i++){
+        for(int i=0; i < boardSize; i++){
             tileOnes = 0;
             tileTwos = 0;
-            for(int j = 0; j > boardSize; j++){
+            for(int j = 0; j < boardSize; j++){
                 if(gameBoard[j][i].blockType == 1){ tileOnes++; }
                 if(gameBoard[j][i].blockType == 2){ tileTwos++; }
             }

@@ -13,6 +13,8 @@ public class tile {
     public int xLoc;
     public int yLoc;
 
+    public boolean locked;
+
     private static final String TAG = boardActivity.class.getSimpleName();
 
     //Constructor
