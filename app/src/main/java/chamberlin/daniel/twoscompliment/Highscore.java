@@ -1,6 +1,8 @@
 package chamberlin.daniel.twoscompliment;
 
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,14 +23,10 @@ public class Highscore extends AppCompatActivity {
         lv.setAdapter(ad);
         music = MediaPlayer.create(this,R.raw.broke_for_free_night_owl);
         music.setLooping(true);
-        Button button = (Button) findViewById(R.id.mutebutton);
-        if(MainActivity.on%2==0) {
-            startMusic();
-            button.setText("PAUSE");
-        }
-        else {
-            pauseMusic();
-            button.setText("RESUME");
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean musicOn = settings.getBoolean("musicOn",true);
+        if(musicOn){
+            music.start();
         }
     }
     @Override
@@ -39,7 +37,11 @@ public class Highscore extends AppCompatActivity {
 
     @Override
     public void onResume(){
-        startMusic();
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean musicOn = settings.getBoolean("musicOn",true);
+        if(musicOn) {
+            startMusic();
+        }
         super.onResume();
     }
 
