@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ImageButton;
@@ -33,6 +34,7 @@ public class boardActivity extends AppCompatActivity {
     private tile[][] gameBoard;
     private ImageButton[][] textBoard;
     MediaPlayer music;
+    Chronometer chronometer;
 
 
     //Main
@@ -151,25 +153,14 @@ public class boardActivity extends AppCompatActivity {
         setAllButtons();
         music = MediaPlayer.create(this, R.raw.broke_for_free_night_owl);
         music.setLooping(true);
-<<<<<<< HEAD
 
-        /*
-        Button button = (Button) findViewById(R.id.mutebutton);
-        if(MainActivity.on%2==0) {
-            startMusic();
-            button.setText("PAUSE");
-        }
-        else {
-            pauseMusic();
-            button.setText("RESUME");
-=======
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         boolean musicOn = settings.getBoolean("musicOn",true);
         if(musicOn){
             music.start();
->>>>>>> 33dacd577da17ed55481886308d6962aa711f124
         }
-        */
+        chronometer = (Chronometer)findViewById(R.id.chronometer);
+        chronometer.start();
     }
 
     private void setButton(ImageButton b, int x, int y){
