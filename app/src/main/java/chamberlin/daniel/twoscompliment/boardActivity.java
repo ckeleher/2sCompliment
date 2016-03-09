@@ -30,7 +30,7 @@ public class boardActivity extends AppCompatActivity {
     public static int boardSize = 6; //Can be 4, 6, 8, 10
 
     private tile[][] gameBoard;
-    private ImageButton[][] textBoard = new ImageButton[boardSize][boardSize];
+    private ImageButton[][] textBoard;
     MediaPlayer music;
 
 
@@ -42,6 +42,7 @@ public class boardActivity extends AppCompatActivity {
         if(extras!=null){
             boardSize = extras.getInt("size");
         }
+        textBoard = new ImageButton[boardSize][boardSize];
 
         if(boardSize == 4) {
             setContentView(R.layout.activity_board);
