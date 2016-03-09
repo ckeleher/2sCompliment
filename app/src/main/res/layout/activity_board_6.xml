@@ -10,6 +10,11 @@
     tools:context="com.dealfaro.luca.class2.MainActivity"
     android:visibility="visible">
 
+    <Chronometer
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/gridLayout3"
+        android:id="@+id/chronometer"/>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"

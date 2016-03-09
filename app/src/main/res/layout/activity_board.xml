@@ -9,7 +9,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.dealfaro.luca.class2.MainActivity"
     android:visibility="visible">
-
+<Chronometer
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignTop="@+id/gridLayout2"
+    android:id="@+id/chronometer"/>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
