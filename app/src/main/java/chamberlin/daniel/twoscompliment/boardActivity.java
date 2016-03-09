@@ -13,6 +13,7 @@ import android.widget.Chronometer;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
@@ -70,8 +71,6 @@ public class boardActivity extends AppCompatActivity {
                 Log.d(TAG, "gameBoard["+x+"]["+y+"].blockType = "+ gameBoard[x][y].blockType);
             }
         }
-
-        //ImageButton[][] textBoard = new ImageButton[boardSize][boardSize];
 
         textBoard[0][0] = (ImageButton) findViewById(R.id.t00);
         textBoard[1][0] = (ImageButton) findViewById(R.id.t10);
@@ -154,10 +153,6 @@ public class boardActivity extends AppCompatActivity {
         setAllButtons();
         music = MediaPlayer.create(this, R.raw.broke_for_free_night_owl);
         music.setLooping(true);
-<<<<<<< HEAD
-        //HEAD
-=======
->>>>>>> 420bff08f2dd482d4c5340f223aceebb29a6129c
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         boolean musicOn = settings.getBoolean("musicOn",true);
@@ -181,6 +176,7 @@ public class boardActivity extends AppCompatActivity {
            b.setBackgroundResource(R.mipmap.emptytile);
         }
 
+        checkFull(gameBoard);
     }
 
     private void setAllButtons (){
@@ -188,6 +184,37 @@ public class boardActivity extends AppCompatActivity {
             for(int j = 0; j <gameBoard[i].length; j++){
                 setButton(textBoard[i][j], i, j);
             }
+        }
+    }
+
+    private void checkFull(tile[][] gameBoard){
+        //check if board is full of reds or blues
+        boolean full = true;
+        String[] msg = new String[2];
+        TextView error = (TextView) findViewById(R.id.errorText);
+        //cycle through board to find any empty tiles
+        for(int x = 0; x<boardSize; x++){
+            for(int y = 0; y<boardSize; y++){
+                if(gameBoard[x][y].blockType == 3){
+                    full = false;
+                }
+            }
+        }
+        if(full == true){
+            msg = checkForCompletion(gameBoard);
+            if(msg[0] == "true"){
+                //player has won
+            }
+            else{
+                //player has lost
+            }
+            //make text show error or success message
+
+            error.setText(msg[1]);
+            error.setVisibility(View.VISIBLE);
+        }
+        else{
+            error.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -495,6 +522,37 @@ public class boardActivity extends AppCompatActivity {
     //           game board (i.e. every tile has a blockType value of 1 or 2. Passing an incomplete board.
     //           Passing them an incomplete board will result in serious errors.
     //-------------------------------------------------------------------------------------------------------
+
+    //Checks all rules to see if game is correctly completed
+    //returns a string array of size 2 that contains
+    //[0] is either 'true' or 'false'
+    //[1] is the error message or success message to display
+    private static String[] checkForCompletion(tile[][] gameBoard){
+        String[] results = new String[2];
+
+        if(checkForThrees(gameBoard) == false){
+            results[0] = "false";
+            results[1] = "There cannot three red or blue in sequence";
+            return results;
+        }
+
+        if(checkEqualTileNumbers(gameBoard) == false){
+            results[0] = "false";
+            results[1] = "There cannot be unequal red and blues in a row or column";
+            return results;
+        }
+
+
+        if(checkForEqualRows(gameBoard) == false || checkForEqualColumns(gameBoard) == false){
+            results[0] = "false";
+            results[1] = "There cannot be duplicate rows or columns";
+            return results;
+        }
+
+        results[0] = "true";
+        results[1] = "Succes!";
+        return results;
+    }
 
 
     //Compares every row to every other row and returns a boolean for whether or not there are duplicate rows
