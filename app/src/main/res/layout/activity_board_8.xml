@@ -712,6 +712,7 @@
         android:layout_column="7" />
 </GridLayout>
 
+<<<<<<< HEAD
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -723,4 +724,6 @@
         android:layout_alignEnd="@+id/gridLayout" />
 
 
+=======
+>>>>>>> 33dacd577da17ed55481886308d6962aa711f124
 </RelativeLayout>

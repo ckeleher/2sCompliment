@@ -1,5 +1,7 @@
 package chamberlin.daniel.twoscompliment;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.media.MediaPlayer;
 import android.content.Intent;
@@ -15,6 +17,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //song is Night Owl by Broke For Free. We need to give credit
         //and post license
-        music = MediaPlayer.create(this,R.raw.broke_for_free_night_owl);
-        music.setLooping(true);
-        music.start();
         Firebase.setAndroidContext(this);
         Firebase firebase = new Firebase("https://shining-inferno-9683.firebaseio.com/");
         firebase.child("High scores").addChildEventListener(new ChildEventListener() {
@@ -69,7 +69,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onResume(){
-        startMusic();
+        music = MediaPlayer.create(this,R.raw.broke_for_free_night_owl);
+        music.setLooping(true);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean musicOn = settings.getBoolean("musicOn",true);
+        Log.i("musicstuff","musciOn:"+musicOn);
+        if(musicOn) {
+            startMusic();
+        }
         super.onResume();
     }
 
@@ -94,11 +101,17 @@ public class MainActivity extends AppCompatActivity {
     }
     public void toggleMusic(View v){
         Button button = (Button) findViewById(R.id.mutebutton);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
         if(on%2==0) {
+            editor.putBoolean("musicOn",false);
+            editor.commit();
             pauseMusic();
             button.setText("RESUME");
         }
         else {
+            editor.putBoolean("musicOn",true);
+            editor.commit();
             startMusic();
             button.setText("PAUSE");
         }

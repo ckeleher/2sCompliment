@@ -22,18 +22,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_alignRight="@+id/mutebutton"
-        android:layout_alignEnd="@+id/mutebutton"
         android:layout_below="@+id/textView" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/mutebutton"
-        android:onClick="toggleMusic"
-        android:layout_above="@+id/listView"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
 </RelativeLayout>

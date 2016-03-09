@@ -1,8 +1,10 @@
 package chamberlin.daniel.twoscompliment;
 
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +44,7 @@ public class boardActivity extends AppCompatActivity {
         if(extras!=null){
             boardSize = extras.getInt("size");
         }
+        textBoard = new ImageButton[boardSize][boardSize];
 
         textBoard = new ImageButton[boardSize][boardSize];
         Log.d(TAG, "in onCreate with boardSize"+boardSize);
@@ -148,6 +151,7 @@ public class boardActivity extends AppCompatActivity {
         setAllButtons();
         music = MediaPlayer.create(this, R.raw.broke_for_free_night_owl);
         music.setLooping(true);
+<<<<<<< HEAD
 
         /*
         Button button = (Button) findViewById(R.id.mutebutton);
@@ -158,6 +162,12 @@ public class boardActivity extends AppCompatActivity {
         else {
             pauseMusic();
             button.setText("RESUME");
+=======
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean musicOn = settings.getBoolean("musicOn",true);
+        if(musicOn){
+            music.start();
+>>>>>>> 33dacd577da17ed55481886308d6962aa711f124
         }
         */
     }
@@ -193,7 +203,11 @@ public class boardActivity extends AppCompatActivity {
 
     @Override
     public void onResume(){
-        startMusic();
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean musicOn = settings.getBoolean("musicOn",true);
+        if(musicOn) {
+            startMusic();
+        }
         super.onResume();
     }
 
@@ -212,18 +226,6 @@ public class boardActivity extends AppCompatActivity {
         if(!music.isPlaying()) {
             music.start();
         }
-    }
-    public void toggleMusic(View v){
-        Button button = (Button) findViewById(R.id.mutebutton);
-        if(MainActivity.on%2==0) {
-            pauseMusic();
-            button.setText("RESUME");
-        }
-        else {
-            startMusic();
-            button.setText("PAUSE");
-        }
-        MainActivity.on++;
     }
 
     //Loads the initial state of the game board
