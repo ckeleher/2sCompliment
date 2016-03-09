@@ -60,7 +60,8 @@ public class boardActivity extends AppCompatActivity {
         }
 
         tile[][] board = new tile[boardSize][boardSize];
-        gameBoard = loadInitialGameState(boardSize, board);
+        gameBoard = prepareForPlayer(loadInitialGameState(boardSize, board));
+
 
         for (int x = 0; x < boardSize; x++){
             for (int y = 0; y < boardSize; y++){
@@ -151,7 +152,7 @@ public class boardActivity extends AppCompatActivity {
         setAllButtons();
         music = MediaPlayer.create(this, R.raw.broke_for_free_night_owl);
         music.setLooping(true);
-<<<<<<< HEAD
+        //HEAD
 
         /*
         Button button = (Button) findViewById(R.id.mutebutton);
@@ -241,17 +242,6 @@ public class boardActivity extends AppCompatActivity {
     private static tile[][] generateBoardState(int boardSize, tile[][] gameBoard){
         //used for deciding how many tiles to leave on the board
         Random r = new Random();
-
-        //Decide how many cells to leave filled
-        int minFill = 0;
-        int maxFill = 0;
-        int fillAmount;
-        if(boardSize == 4){minFill = 4; maxFill = 5;}						//There's no formula to these numbers, they just seem to be good bounds for the given board sizes
-        if(boardSize == 6){minFill = 8; maxFill = 12;}
-        if(boardSize == 8){minFill = 15; maxFill = 20;}
-        if(boardSize == 10){minFill = 21; maxFill = 30;}
-        fillAmount = r.nextInt(maxFill - minFill + 1) + minFill;
-
 
         //Fill board with empty tiles
         for(int i=0; i < boardSize; i++){
@@ -417,6 +407,50 @@ public class boardActivity extends AppCompatActivity {
         }
     }
 
+    //removes all tiles except for a select few, locks them so that
+    // they cannot be changed by the player
+    // and then returns the board
+    private tile[][] prepareForPlayer(tile[][] gameBoard){
+        Random r = new Random();
+        //Decide how many cells to leave filled
+        int minFill = 0;
+        int maxFill = 0;
+        int fillAmount;
+        if(boardSize == 4){minFill = 4; maxFill = 5;}						//There's no formula to these numbers, they just seem to be good bounds for the given board sizes
+        if(boardSize == 6){minFill = 8; maxFill = 12;}
+        if(boardSize == 8){minFill = 15; maxFill = 20;}
+        if(boardSize == 10){minFill = 21; maxFill = 30;}
+        fillAmount = r.nextInt(maxFill - minFill + 1) + minFill;
+
+        int currentFill = boardSize*boardSize;
+        boolean done = false;
+
+        //cycle through gameBoard until tiles are removed except for fillAmount
+
+        while(done == false) {
+            for (int x = 0; x < boardSize; x++) {
+                for (int y = 0; y < boardSize; y++) {
+                    if (currentFill > fillAmount) {
+                        //used for deciding how many tiles to leave on the board
+                        Random rn = new Random();
+                        //change tile to empty and substract from startingFill
+                        //20% chance to change
+                        if(rn.nextInt(10)+1>8) {
+                            gameBoard[x][y].blockType = 3;
+                            currentFill--;
+                            //unlock tiles set to empty
+                            gameBoard[x][y].locked = false;
+                        }
+                    } else {
+                        done = true;
+                    }
+                }
+            }
+        }
+
+        return gameBoard;
+    }
+
     private tile[] convertToOneD(tile[][] gameBoard){
         int vert = gameBoard.length;
         int total = 0;
@@ -445,8 +479,13 @@ public class boardActivity extends AppCompatActivity {
             for(int y = 0; y < boardSize; y++){
                 if(btn == (ImageButton) textBoard[x][y]){
                     t = gameBoard[x][y];
-                    t.cycleTileState(t.blockType);
-                    setButton(btn, x, y);
+                    if(t.locked==false) {
+                        t.cycleTileState(t.blockType);
+                        setButton(btn, x, y);
+                    }
+                    else{
+                        //tell the player that the button is locked
+                    }
                 }
             }
         }

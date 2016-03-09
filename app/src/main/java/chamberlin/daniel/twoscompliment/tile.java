@@ -22,12 +22,13 @@ public class tile {
         blockType = givenBlockType;
         xLoc = givenX;
         yLoc = givenY;
+        locked = true;
     }
 
     //Change block state
-    //1 = empty
-    //2 = red
-    //3 = blue
+    //1 = red
+    //2 = blue
+    //3 = empty
     public void cycleTileState(int Start){
         Log.d(TAG, "cyclingblockType from "+blockType);
         if(Start == 1){ this.blockType = 2; Log.d(TAG, "Start == 1"); }
