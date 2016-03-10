@@ -19,6 +19,7 @@ import com.firebase.client.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +37,15 @@ public class MainActivity extends AppCompatActivity {
         firebase.child("High scores").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                sclist.add(dataSnapshot.getValue(Player.class));
+                Player temp = dataSnapshot.getValue(Player.class);
+                if(sclist.size()<100) {
+                    sclist.add(temp);
+                    Collections.sort(sclist);
+                }else if(sclist.size()>=100 && temp.getTime()<sclist.get(sclist.size()-1).getTime()){
+                    sclist.add(temp);
+                    Collections.sort(sclist);
+                    sclist.remove(sclist.size()-1);
+                }
             }
 
             @Override
