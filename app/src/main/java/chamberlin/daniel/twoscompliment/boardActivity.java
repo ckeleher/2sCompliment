@@ -187,6 +187,18 @@ public class boardActivity extends AppCompatActivity {
         }
     }
 
+    //when used, reset the board by setting all unlocked tiles to empty
+    //used as a catch-all 'undo' button
+    private void resetBoard (tile[][] gameBoard){
+        for(int x = 0; x<boardSize; x++){
+            for(int y = 0; y<boardSize; y++){
+                if(gameBoard[x][y].locked == false){
+                    gameBoard[x][y].blockType = 3;
+                }
+            }
+        }
+    }
+
     private void checkFull(tile[][] gameBoard){
         //check if board is full of reds or blues
         boolean full = true;
