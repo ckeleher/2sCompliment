@@ -37,6 +37,7 @@ public class boardActivity extends AppCompatActivity {
     private ImageButton[][] textBoard;
     MediaPlayer music;
     private static Chronometer chronometer;
+    private static int score = 0;
 
 
     //Main
@@ -565,7 +566,8 @@ public class boardActivity extends AppCompatActivity {
 
         results[0] = "true";
         results[1] = "Succes!";
-        calcScore();
+        score =  calcScore();
+        Log.i("LOGscore","score: "+score);
         return results;
     }
 
