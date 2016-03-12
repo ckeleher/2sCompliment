@@ -36,7 +36,7 @@ public class boardActivity extends AppCompatActivity {
     private tile[][] gameBoard;
     private ImageButton[][] textBoard;
     MediaPlayer music;
-    private static Chronometer chronometer;
+    private Chronometer chronometer;
     private static int score = 0;
 
 
@@ -219,6 +219,8 @@ public class boardActivity extends AppCompatActivity {
             msg = checkForCompletion(gameBoard);
             if(msg[0] == "true"){
                 //player has won
+                score =  calcScore();
+                Log.i("LOGscore","score: "+score);
             }
             else{
                 //player has lost
@@ -566,8 +568,6 @@ public class boardActivity extends AppCompatActivity {
 
         results[0] = "true";
         results[1] = "Succes!";
-        score =  calcScore();
-        Log.i("LOGscore","score: "+score);
         return results;
     }
 
@@ -709,7 +709,7 @@ public class boardActivity extends AppCompatActivity {
         return tileTypesEqual;
     }
     //Stops timer and calculates score based on time
-    private static int calcScore(){
+    private int calcScore(){
         chronometer.stop();
         long millitime = SystemClock.elapsedRealtime() - chronometer.getBase();
         double time = Math.floor((double)millitime/1000);
