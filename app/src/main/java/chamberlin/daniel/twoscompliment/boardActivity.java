@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -35,7 +36,7 @@ public class boardActivity extends AppCompatActivity {
     private tile[][] gameBoard;
     private ImageButton[][] textBoard;
     MediaPlayer music;
-    Chronometer chronometer;
+    private static Chronometer chronometer;
 
 
     //Main
@@ -160,6 +161,7 @@ public class boardActivity extends AppCompatActivity {
             music.start();
         }
         chronometer = (Chronometer)findViewById(R.id.chronometer);
+        chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
     }
 
@@ -563,6 +565,7 @@ public class boardActivity extends AppCompatActivity {
 
         results[0] = "true";
         results[1] = "Succes!";
+        calcScore();
         return results;
     }
 
@@ -702,5 +705,13 @@ public class boardActivity extends AppCompatActivity {
             }
         }
         return tileTypesEqual;
+    }
+    //Stops timer and calculates score based on time
+    private static int calcScore(){
+        chronometer.stop();
+        long millitime = SystemClock.elapsedRealtime() - chronometer.getBase();
+        double time = Math.floor((double)millitime/1000);
+        Log.i("LOGscore","this is the score "+(int)time);
+        return (int)time;
     }
 }
