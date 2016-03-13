@@ -2,4 +2,5 @@
     <string name="app_name">TwosCompliment</string>
     <string name="pause">Pause</string>
     <string name="highscore">Highscore</string>
+    <string name="NewHighscore">New Highscore!</string>
 </resources>

@@ -1,5 +1,6 @@
 package chamberlin.daniel.twoscompliment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
@@ -72,5 +73,9 @@ public class Highscore extends AppCompatActivity {
             button.setText("PAUSE");
         }
         MainActivity.on++;
+    }
+    public void goToMainMenu(View V){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

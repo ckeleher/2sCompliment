@@ -1,5 +1,6 @@
 package chamberlin.daniel.twoscompliment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -20,6 +21,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 import chamberlin.daniel.twoscompliment.tile;
 
@@ -37,7 +39,7 @@ public class boardActivity extends AppCompatActivity {
     private ImageButton[][] textBoard;
     MediaPlayer music;
     private Chronometer chronometer;
-    private static int score = 0;
+    static int score = 0;
 
 
     //Main
@@ -221,6 +223,16 @@ public class boardActivity extends AppCompatActivity {
                 //player has won
                 score =  calcScore();
                 Log.i("LOGscore","score: "+score);
+                if(MainActivity.sclist.size()<100) {
+                    Intent intent = new Intent(this,enterName.class);
+                    startActivity(intent);
+                }else if(MainActivity.sclist.size()>=100 && score<MainActivity.sclist.get(MainActivity.sclist.size()-1).getTime()){
+                    Intent intent = new Intent(this,enterName.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(this,Highscore.class);
+                    startActivity(intent);
+                }
             }
             else{
                 //player has lost

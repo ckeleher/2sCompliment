@@ -33,18 +33,18 @@ public class MainActivity extends AppCompatActivity {
         //song is Night Owl by Broke For Free. We need to give credit
         //and post license
         Firebase.setAndroidContext(this);
-        Firebase firebase = new Firebase("https://shining-inferno-9683.firebaseio.com/");
+       Firebase firebase = new Firebase("https://shining-inferno-9683.firebaseio.com/");
         firebase.child("High scores").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Player temp = dataSnapshot.getValue(Player.class);
-                if(sclist.size()<100) {
-                    sclist.add(temp);
-                    Collections.sort(sclist);
-                }else if(sclist.size()>=100 && temp.getTime()<sclist.get(sclist.size()-1).getTime()){
-                    sclist.add(temp);
-                    Collections.sort(sclist);
-                    sclist.remove(sclist.size()-1);
+                if (MainActivity.sclist.size() < 100) {
+                    MainActivity.sclist.add(temp);
+                    Collections.sort(MainActivity.sclist);
+                } else if (MainActivity.sclist.size() >= 100 && temp.getTime() < MainActivity.sclist.get(MainActivity.sclist.size() - 1).getTime()) {
+                    MainActivity.sclist.add(temp);
+                    Collections.sort(MainActivity.sclist);
+                    MainActivity.sclist.remove(MainActivity.sclist.size() - 1);
                 }
             }
 
