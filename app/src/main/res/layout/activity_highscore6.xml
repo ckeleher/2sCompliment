@@ -7,38 +7,34 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="chamberlin.daniel.twoscompliment.enterName">
+    tools:context="chamberlin.daniel.twoscompliment.Highscore6">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/NewHighscore"
-        android:id="@+id/textView3"
+        android:text="Highscores"
+        android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <EditText
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:hint="Enter a name"
-        android:layout_marginTop="113dp"
-        android:layout_below="@+id/textView3"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
+        android:id="@+id/listView"
+        android:layout_below="@+id/mmbutton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter"
-        android:id="@+id/hsbutton"
-        android:visibility="invisible"
-        android:onClick="goToMM"
-
-        android:layout_alignBottom="@+id/editText"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText"
-        android:layout_marginBottom="53dp" />
+        android:text="Main Menu"
+        android:onClick="goToMainMenu"
+        android:id="@+id/mmbutton"
+        android:layout_alignTop="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

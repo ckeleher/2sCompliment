@@ -223,15 +223,32 @@ public class boardActivity extends AppCompatActivity {
                 //player has won
                 score =  calcScore();
                 Log.i("LOGscore","score: "+score);
-                if(MainActivity.sclist.size()<100) {
-                    Intent intent = new Intent(this,enterName.class);
-                    startActivity(intent);
-                }else if(MainActivity.sclist.size()>=100 && score<MainActivity.sclist.get(MainActivity.sclist.size()-1).getTime()){
-                    Intent intent = new Intent(this,enterName.class);
-                    startActivity(intent);
-                }else{
-                    Intent intent = new Intent(this,Highscore.class);
-                    startActivity(intent);
+                if(boardSize == 4) {
+                    if (MainActivity.sclist.size() < 100) {
+                        Intent intent = new Intent(this, enterName.class);
+                        intent.putExtra("boardsize",boardSize);
+                        startActivity(intent);
+                    } else if (MainActivity.sclist.size() >= 100 && score < MainActivity.sclist.get(MainActivity.sclist.size() - 1).getTime()) {
+                        Intent intent = new Intent(this, enterName.class);
+                        intent.putExtra("boardsize",boardSize);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(this, Highscore.class);
+                        startActivity(intent);
+                    }
+                }else if(boardSize == 6){
+                    if (MainActivity.sclist6.size() < 100) {
+                        Intent intent = new Intent(this, enterName.class);
+                        intent.putExtra("boardsize",boardSize);
+                        startActivity(intent);
+                    } else if (MainActivity.sclist6.size() >= 100 && score < MainActivity.sclist6.get(MainActivity.sclist6.size() - 1).getTime()) {
+                        Intent intent = new Intent(this, enterName.class);
+                        intent.putExtra("boardsize",boardSize);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(this, Highscore6.class);
+                        startActivity(intent);
+                    }
                 }
             }
             else{

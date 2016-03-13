@@ -94,8 +94,17 @@ public class enterName extends AppCompatActivity {
     }
     public void goToMM(View v){
         Intent intent = new Intent(this, MainActivity.class);
+        Bundle extras = getIntent().getExtras();
+        int boardSize = 0;
+        if(extras!=null){
+            boardSize = extras.getInt("boardsize");
+        }
         Player temp = new Player(ed.getText().toString().trim(),boardActivity.score);
-        MainActivity.firebase.child("High scores").push().setValue(temp);
+        if(boardSize==4){
+            MainActivity.firebase.child("High scores").push().setValue(temp);
+        }else if(boardSize==6){
+            MainActivity.firebase.child("High scores6").push().setValue(temp);
+        }
         startActivity(intent);
     }
 }

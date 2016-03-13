@@ -28,7 +28,8 @@
             android:name=".boardActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name=".enterName"></activity>
+        <activity android:name=".enterName" />
+        <activity android:name=".Highscore6"></activity>
     </application>
 
 </manifest>
