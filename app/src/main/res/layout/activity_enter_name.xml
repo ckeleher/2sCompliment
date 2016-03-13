@@ -31,13 +31,13 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Highscores"
+        android:text="Enter"
         android:id="@+id/hsbutton"
         android:visibility="invisible"
-        android:onClick="goToHighscores"
-        android:layout_below="@+id/editText"
+        android:onClick="goToMM"
+        android:layout_alignBottom="@+id/editText"
         android:layout_alignLeft="@+id/editText"
         android:layout_alignStart="@+id/editText"
-        android:layout_marginTop="123dp" />
+        android:layout_marginBottom="53dp" />
 
 </RelativeLayout>

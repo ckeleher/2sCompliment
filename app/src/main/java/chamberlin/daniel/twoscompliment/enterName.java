@@ -92,8 +92,8 @@ public class enterName extends AppCompatActivity {
             music.start();
         }
     }
-    public void goToHighscores(View v){
-        Intent intent = new Intent(this, Highscore.class);
+    public void goToMM(View v){
+        Intent intent = new Intent(this, MainActivity.class);
         Player temp = new Player(ed.getText().toString().trim(),boardActivity.score);
         MainActivity.firebase.child("High scores").push().setValue(temp);
         startActivity(intent);
