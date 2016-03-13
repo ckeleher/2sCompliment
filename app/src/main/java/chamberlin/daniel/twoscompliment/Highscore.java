@@ -74,6 +74,11 @@ public class Highscore extends AppCompatActivity {
         }
         MainActivity.on++;
     }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
     public void goToMainMenu(View V){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
