@@ -39,14 +39,14 @@
         android:text="4X4"
         android:id="@+id/button4x"
         android:onClick="startGame4"
-        android:layout_below="@+id/hsbutton"
-        android:layout_alignLeft="@+id/hsbutton"
-        android:layout_alignStart="@+id/hsbutton" />
+        android:layout_below="@+id/hs6button"
+        android:layout_alignLeft="@+id/hs6button"
+        android:layout_alignStart="@+id/hs6button" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/highscore"
+        android:text="4X4 Highscore"
         android:id="@+id/hsbutton"
         android:onClick="highscore"
         android:layout_marginTop="101dp"
@@ -60,26 +60,16 @@
         android:id="@+id/button6x"
         android:onClick="startGame6"
         android:layout_below="@+id/button4x"
-        android:layout_alignLeft="@+id/hsbutton"
-        android:layout_alignStart="@+id/hsbutton" />
+        android:layout_alignLeft="@+id/button4x"
+        android:layout_alignStart="@+id/button4x" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="8X8"
-        android:id="@+id/button8x"
-        android:onClick="startGame8"
-        android:layout_below="@+id/button6x"
-        android:layout_alignLeft="@+id/hsbutton"
-        android:layout_alignStart="@+id/hsbutton" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="10X10"
-        android:id="@+id/button10x"
-        android:onClick="startGame10"
-        android:layout_below="@+id/button8x"
+        android:text="6X6 Highscore"
+        android:id="@+id/hs6button"
+        android:onClick="highscore6"
+        android:layout_below="@+id/hsbutton"
         android:layout_alignLeft="@+id/hsbutton"
         android:layout_alignStart="@+id/hsbutton" />
 

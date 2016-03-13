@@ -24,6 +24,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     static List<Player> sclist = new ArrayList<>();
+    static List<Player> sclist6 = new ArrayList<>();
     static int on = 0;
     MediaPlayer music;
     @Override
@@ -32,19 +33,55 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //song is Night Owl by Broke For Free. We need to give credit
         //and post license
+        sclist.clear();
+        sclist6.clear();
         Firebase.setAndroidContext(this);
-       Firebase firebase = new Firebase("https://shining-inferno-9683.firebaseio.com/");
+        Firebase firebase = new Firebase("https://shining-inferno-9683.firebaseio.com/");
         firebase.child("High scores").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Player temp = dataSnapshot.getValue(Player.class);
-                if (MainActivity.sclist.size() < 100) {
-                    MainActivity.sclist.add(temp);
-                    Collections.sort(MainActivity.sclist);
-                } else if (MainActivity.sclist.size() >= 100 && temp.getTime() < MainActivity.sclist.get(MainActivity.sclist.size() - 1).getTime()) {
-                    MainActivity.sclist.add(temp);
-                    Collections.sort(MainActivity.sclist);
-                    MainActivity.sclist.remove(MainActivity.sclist.size() - 1);
+                if (sclist.size() < 100) {
+                    sclist.add(temp);
+                    Collections.sort(sclist);
+                } else if (sclist.size() >= 100 && temp.getTime() < sclist.get(sclist.size() - 1).getTime()) {
+                    sclist.add(temp);
+                    Collections.sort(sclist);
+                    sclist.remove(sclist.size() - 1);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+        firebase.child("High scores6").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Player temp = dataSnapshot.getValue(Player.class);
+                if (sclist6.size() < 100) {
+                    sclist6.add(temp);
+                    Collections.sort(sclist6);
+                } else if (sclist6.size() >= 100 && temp.getTime() < sclist6.get(sclist6.size() - 1).getTime()) {
+                    sclist6.add(temp);
+                    Collections.sort(sclist6);
+                    sclist6.remove(sclist6.size() - 1);
                 }
             }
 
@@ -82,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         music.setLooping(true);
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         boolean musicOn = settings.getBoolean("musicOn",true);
-        Log.i("musicstuff","musciOn:"+musicOn);
+        Log.i("musicstuff", "musciOn:" + musicOn);
         if(musicOn) {
             startMusic();
         }
@@ -130,6 +167,13 @@ public class MainActivity extends AppCompatActivity {
     public void highscore(View v){
         Intent intent = new Intent(this, Highscore.class);
         music.stop();
+        music.reset();
+        startActivity(intent);
+    }
+
+    public void highscore6(View v){
+        Intent intent = new Intent(this,Highscore6.class);
+        music.start();
         music.reset();
         startActivity(intent);
     }

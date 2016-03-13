@@ -11,15 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.util.List;
-
-public class Highscore extends AppCompatActivity {
+public class Highscore6 extends AppCompatActivity {
     MediaPlayer music;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_highscore);
-        ArrayAdapter<Player> ad = new ArrayAdapter<Player>(this,android.R.layout.simple_list_item_1,MainActivity.sclist);
+        setContentView(R.layout.activity_highscore6);
+        ArrayAdapter<Player> ad = new ArrayAdapter<Player>(this,android.R.layout.simple_list_item_1,MainActivity.sclist6);
         ListView lv = (ListView)findViewById(R.id.listView);
         lv.setAdapter(ad);
         music = MediaPlayer.create(this,R.raw.broke_for_free_night_owl);
