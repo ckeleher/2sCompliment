@@ -23,7 +23,6 @@ import java.util.List;
 
 public class enterName extends AppCompatActivity {
     private EditText ed;
-    private Firebase firebase;
     MediaPlayer music;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,6 @@ public class enterName extends AppCompatActivity {
         if(musicOn){
             music.start();
         }
-        Firebase.setAndroidContext(this);
-        firebase = new Firebase("https://shining-inferno-9683.firebaseio.com/");
         ed = (EditText) findViewById(R.id.editText);
         ed.setText("");
         final Button button = (Button)findViewById(R.id.hsbutton);
@@ -98,7 +95,7 @@ public class enterName extends AppCompatActivity {
     public void goToHighscores(View v){
         Intent intent = new Intent(this, Highscore.class);
         Player temp = new Player(ed.getText().toString().trim(),boardActivity.score);
-        firebase.child("High scores").push().setValue(temp);
+        MainActivity.firebase.child("High scores").push().setValue(temp);
         startActivity(intent);
     }
 }

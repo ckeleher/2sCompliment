@@ -26,14 +26,16 @@ public class MainActivity extends AppCompatActivity {
     static List<Player> sclist = new ArrayList<>();
     static int on = 0;
     MediaPlayer music;
+    static Firebase firebase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //song is Night Owl by Broke For Free. We need to give credit
         //and post license
+        sclist.clear();
         Firebase.setAndroidContext(this);
-       Firebase firebase = new Firebase("https://shining-inferno-9683.firebaseio.com/");
+        firebase = new Firebase("https://shining-inferno-9683.firebaseio.com/");
         firebase.child("High scores").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
