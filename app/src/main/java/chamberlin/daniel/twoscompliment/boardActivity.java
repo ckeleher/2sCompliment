@@ -484,8 +484,8 @@ public class boardActivity extends AppCompatActivity {
         int minFill = 0;
         int maxFill = 0;
         int fillAmount;
-        if(boardSize == 4){minFill = 4; maxFill = 5;}						//There's no formula to these numbers, they just seem to be good bounds for the given board sizes
-        if(boardSize == 6){minFill = 8; maxFill = 12;}
+        if(boardSize == 4){minFill = 6; maxFill = 7;}						//There's no formula to these numbers, they just seem to be good bounds for the given board sizes
+        if(boardSize == 6){minFill = 12; maxFill = 15;}
         if(boardSize == 8){minFill = 15; maxFill = 20;}
         if(boardSize == 10){minFill = 21; maxFill = 30;}
         fillAmount = r.nextInt(maxFill - minFill + 1) + minFill;
@@ -503,14 +503,18 @@ public class boardActivity extends AppCompatActivity {
                         Random rn = new Random();
                         //change tile to empty and substract from startingFill
                         //20% chance to change
-                        if(rn.nextInt(10)+1>8) {
+                        if(rn.nextInt(10)+1>8 &&gameBoard[x][y].blockType != 3) {
                             gameBoard[x][y].blockType = 3;
+                            Log.d(TAG, "cleared tile"+ x+ " "+y);
                             currentFill--;
                             //unlock tiles set to empty
                             gameBoard[x][y].locked = false;
+                            Log.d(TAG, "fillAmount ="+ fillAmount);
+                            Log.d(TAG, "currentFill = "+ currentFill);
                         }
                     } else {
                         done = true;
+                        Log.d(TAG, "done clearing");
                     }
                 }
             }
